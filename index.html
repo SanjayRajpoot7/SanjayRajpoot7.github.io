@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sanjay Rajput — Java Full Stack Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #101828;
+    --navy-raised: #182236;
+    --paper: #FFFFFF;
+    --ink: #1D2433;
+    --muted: #667085;
+    --accent: #2F6F5E;
+    --line: #E4E7EC;
+    --sidebar-text: #CBD2DE;
+    --sidebar-muted: #7C8698;
+    --font: "Libre Franklin", -apple-system, "Segoe UI", sans-serif;
+    --font-mono: "IBM Plex Mono", Menlo, Consolas, monospace;
+    box-sizing: border-box;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #14171C; --ink: #E7E9EE; --muted: #9AA2B1; --line: #262C36; --navy: #0B0F17; --navy-raised: #141B29;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #14171C; --ink: #E7E9EE; --muted: #9AA2B1; --line: #262C36; --navy: #0B0F17; --navy-raised: #141B29;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: var(--font); font-size: 16px; line-height: 1.65;
+  }
+  a { color: var(--accent); }
+
+  .sidebar {
+    position: fixed; top: 0; left: 0; bottom: 0; width: 280px;
+    background: var(--navy); color: var(--sidebar-text);
+    padding: calc(48px + env(safe-area-inset-top, 0px)) 32px 32px;
+    display: flex; flex-direction: column; overflow-y: auto;
+  }
+  .sidebar .name {
+    font-size: 1.5rem; font-weight: 700; color: #fff; margin: 0 0 4px;
+    opacity: 0; animation: slideIn 0.6s ease forwards; animation-delay: 0.05s;
+  }
+  .sidebar .role {
+    font-size: 0.92rem; color: var(--sidebar-muted); margin: 0 0 28px;
+    opacity: 0; animation: slideIn 0.6s ease forwards; animation-delay: 0.16s;
+  }
+  @keyframes slideIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
+
+  .sidebar nav ul { list-style: none; margin: 0 0 32px; padding: 0; }
+  .sidebar nav li { margin-bottom: 4px; opacity: 0; animation: slideIn 0.5s ease forwards; }
+  .sidebar nav li:nth-child(1) { animation-delay: 0.24s; }
+  .sidebar nav li:nth-child(2) { animation-delay: 0.30s; }
+  .sidebar nav li:nth-child(3) { animation-delay: 0.36s; }
+  .sidebar nav li:nth-child(4) { animation-delay: 0.42s; }
+  .sidebar nav li:nth-child(5) { animation-delay: 0.48s; }
+  .sidebar nav a {
+    display: inline-block; color: var(--sidebar-text); text-decoration: none;
+    font-size: 0.9rem; padding: 6px 0; position: relative;
+  }
+  .sidebar nav a::after {
+    content: ""; position: absolute; left: 0; bottom: 3px; width: 0; height: 1px;
+    background: #fff; transition: width 0.25s ease;
+  }
+  .sidebar nav a:hover::after { width: 100%; }
+  .sidebar nav a:hover { color: #fff; }
+
+  .sidebar .contact {
+    margin-top: auto; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex; flex-direction: column; gap: 8px;
+    opacity: 0; animation: slideIn 0.6s ease forwards; animation-delay: 0.55s;
+  }
+  .sidebar .contact a, .sidebar .contact span {
+    color: var(--sidebar-muted); text-decoration: none; font-size: 0.82rem; font-family: var(--font-mono);
+  }
+  .sidebar .contact a:hover { color: #fff; }
+
+  main {
+    margin-left: 280px; max-width: 680px; padding: 64px 48px 100px;
+  }
+
+  section { padding: 40px 0; border-bottom: 1px solid var(--line); }
+  section:first-of-type { padding-top: 0; }
+  section:last-of-type { border-bottom: none; }
+
+  h2 {
+    font-size: 0.82rem; font-weight: 700; letter-spacing: 0.03em; color: var(--accent);
+    margin: 0 0 24px; text-transform: uppercase;
+  }
+
+  .lede { font-size: 1.1rem; max-width: 56ch; margin: 0; }
+
+  .entry { margin-bottom: 28px; }
+  .entry:last-child { margin-bottom: 0; }
+  .entry-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 3px; }
+  .entry-head h3 { font-size: 1.05rem; font-weight: 600; margin: 0; }
+  .entry-head .when { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+  .entry .place { color: var(--muted); font-size: 14px; margin: 0 0 12px; }
+
+  ul.bullets { margin: 0; padding-left: 20px; }
+  ul.bullets li { margin-bottom: 8px; }
+  ul.bullets li:last-child { margin-bottom: 0; }
+
+  .stack-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 16px; }
+  .stack-tags span {
+    font-family: var(--font-mono); font-size: 11.5px; color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+    border-radius: 4px; padding: 4px 9px; transition: background 0.18s ease;
+  }
+  .stack-tags span:hover { background: color-mix(in srgb, var(--accent) 22%, transparent); }
+
+  .skills-grid { display: grid; gap: 18px; }
+  .skill-row { display: grid; grid-template-columns: 150px 1fr; gap: 16px; }
+  .skill-row .label { font-size: 12.5px; font-weight: 600; color: var(--muted); }
+  .skill-row .items { font-size: 14.5px; }
+  @media (max-width: 560px) { .skill-row { grid-template-columns: 1fr; gap: 3px; } }
+
+  .edu-cert-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  @media (max-width: 620px) { .edu-cert-grid { grid-template-columns: 1fr; } }
+  .edu-cert-grid h4 { font-size: 12px; font-weight: 700; color: var(--muted); margin: 0 0 14px; letter-spacing: 0.02em; }
+  .edu-cert-grid .item { margin-bottom: 14px; }
+  .edu-cert-grid .item .t { font-weight: 600; font-size: 14.5px; }
+  .edu-cert-grid .item .s { color: var(--muted); font-size: 13.5px; }
+
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+  footer { padding: 40px 0 0; }
+  footer p { color: var(--muted); font-size: 13.5px; margin: 0; }
+  footer a { color: var(--accent); }
+
+  @media (max-width: 820px) {
+    .sidebar {
+      position: static; width: 100%; height: auto; flex-direction: column;
+      align-items: flex-start; justify-content: flex-start;
+      padding: calc(18px + env(safe-area-inset-top, 0px)) 20px 18px; gap: 12px;
+    }
+    .sidebar .name, .sidebar .role { display: block; }
+    .sidebar .role { margin-bottom: 4px; }
+    .sidebar nav ul { display: flex; gap: 16px; margin: 0; flex-wrap: wrap; }
+    .sidebar .contact {
+      display: flex; flex-direction: row; flex-wrap: wrap; gap: 10px 16px; margin-top: 4px; padding-top: 10px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .sidebar .contact span { display: none; }
+    main { margin-left: 0; padding: 40px 20px 80px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sidebar .name, .sidebar .role, .sidebar nav li, .sidebar .contact, .reveal {
+      animation: none !important; transition: none !important; opacity: 1 !important; transform: none !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+  <div>
+    <p class="name">Sanjay Rajput</p>
+    <p class="role">Java Full Stack Developer</p>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="#summary">Summary</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#project">Project</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#education">Education</a></li>
+    </ul>
+  </nav>
+  <div class="contact">
+    <a href="mailto:sanjay.rajpoot1165@gmail.com">sanjay.rajpoot1165@gmail.com</a>
+    <a href="tel:+919399050690">+91 93990 50690</a>
+    <a href="https://www.linkedin.com/in/sanjay-rajpoot" target="_blank" rel="noopener">linkedin.com/in/sanjay-rajpoot</a>
+    <a href="https://github.com/SanjayRajpoot7" target="_blank" rel="noopener">github.com/SanjayRajpoot7</a>
+    <span>Navi Mumbai, IN</span>
+  </div>
+</div>
+
+<main>
+
+  <section id="summary">
+    <h2>Profile</h2>
+    <p class="lede">Software Engineer at Capgemini building enterprise web applications with Java, Spring Boot, React, and AWS. I focus on performance, clean architecture, and production reliability — and build systems like a real-time fraud detection engine on my own time, because that's the kind of problem worth solving.</p>
+  </section>
+
+  <section id="experience" class="reveal">
+    <h2>Experience</h2>
+    <div class="entry">
+      <div class="entry-head">
+        <h3>Full Stack Developer, Capgemini</h3>
+        <span class="when">Sept 2025 — Present</span>
+      </div>
+      <p class="place">Enterprise logistics and operations platform</p>
+      <ul class="bullets">
+        <li>Improved performance of critical modules within an enterprise-level logistics and operations management platform, reducing load times by 13–15% and increasing throughput in targeted components by up to 40%.</li>
+        <li>Delivered new features and business-critical functionality against stakeholder requirements, directly supporting logistics and operational workflows used across the organization.</li>
+        <li>Provided production support and root-cause analysis for live issues, maintaining application stability and minimizing downtime.</li>
+        <li>Collaborated with cross-functional teams to translate business requirements into scalable, maintainable code.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="project" class="reveal">
+    <h2>Project</h2>
+    <div class="entry">
+      <div class="entry-head">
+        <h3>AI-Powered Fraud Detection System</h3>
+        <span class="when">Personal Project</span>
+      </div>
+      <p class="place">Real-time transaction monitoring and fraud alerting</p>
+      <div class="stack-tags">
+        <span>Java</span><span>Spring Boot</span><span>Kafka</span><span>Spring Security</span><span>React</span><span>SQL</span><span>Microservices</span><span>Docker</span><span>Redis</span>
+      </div>
+      <ul class="bullets">
+        <li>Built a real-time fraud detection system using Java, Spring Boot, and a microservices architecture, processing high-volume transaction streams to flag suspicious activity.</li>
+        <li>Integrated Kafka for real-time event streaming, enabling fast, scalable detection of fraudulent transactions.</li>
+        <li>Implemented Spring Security for authentication and authorization, securing access to sensitive financial data.</li>
+        <li>Designed the front end with React and modeled transaction data in SQL, delivering an end-to-end system from data ingestion to fraud alerts.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="skills" class="reveal">
+    <h2>Skills</h2>
+    <div class="skills-grid">
+      <div class="skill-row"><span class="label">Languages</span><span class="items">Java, Spring Boot, Python, React</span></div>
+      <div class="skill-row"><span class="label">Data &amp; Messaging</span><span class="items">MySQL, Kafka, Redis, GraphQL</span></div>
+      <div class="skill-row"><span class="label">Architecture</span><span class="items">Microservices, Spring Security, REST APIs</span></div>
+      <div class="skill-row"><span class="label">Tools &amp; Cloud</span><span class="items">AWS, Docker, Postman, Maven, Jira, Grafana, Playwright</span></div>
+    </div>
+  </section>
+
+  <section id="education" class="reveal">
+    <h2>Education &amp; Certifications</h2>
+    <div class="edu-cert-grid">
+      <div>
+        <h4>EDUCATION</h4>
+        <div class="item">
+          <div class="t">Technocrats Institute of Technology, Bhopal</div>
+          <div class="s">B.Tech, AI &amp; Machine Learning — 2025</div>
+        </div>
+        <div class="item">
+          <div class="t">Navchetna Higher Secondary School, Pipariya</div>
+          <div class="s">Higher Secondary, Mathematics — 2021</div>
+        </div>
+      </div>
+      <div>
+        <h4>CERTIFICATIONS</h4>
+        <div class="item">
+          <div class="t">Microsoft Certified</div>
+          <div class="s">Azure Developer Associate (AZ-204)</div>
+        </div>
+        <div class="item">
+          <div class="t">Google Cloud Certified</div>
+          <div class="s">Associate Cloud Engineer</div>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <p>Open to freelance and contract engagements alongside full-time work — reach out at <a href="mailto:sanjay.rajpoot1165@gmail.com">sanjay.rajpoot1165@gmail.com</a>.</p>
+    </footer>
+  </section>
+
+</main>
+
+<script>
+  var els = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.15 });
+    els.forEach(function(el) { io.observe(el); });
+  } else {
+    els.forEach(function(el) { el.classList.add('is-visible'); });
+  }
+</script>
+</body>
+</html>
